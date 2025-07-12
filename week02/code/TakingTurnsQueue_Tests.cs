@@ -8,11 +8,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 public class TakingTurnsQueueTests
 {
     [TestMethod]
-    // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
-    // run until the queue is empty
-    // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
-    public void TestTakingTurnsQueue_FiniteRepetition()
+// Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3)
+// Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
+// Defect(s) Found: The wrong person is being returned. Sue is returned instead of Bob.
+// This suggests people are being rotated or re-added in the wrong order or turn count is not updating correctly.
+public void TestTakingTurnsQueue_FiniteRepetition()
+
     {
         var bob = new Person("Bob", 2);
         var tim = new Person("Tim", 5);
@@ -104,7 +105,7 @@ public class TakingTurnsQueueTests
         for (int i = 0; i < 10; i++)
         {
             var person = players.GetNextPerson();
-            Assert.AreEqual(expectedResult[i].Name, person.Name);
+              Assert.AreEqual(expectedResult[i].Name, person.Name);
         }
 
         // Verify that the people with infinite turns really do have infinite turns.
