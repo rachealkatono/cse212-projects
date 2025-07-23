@@ -1,38 +1,58 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-// TODO Problem 2 - Write and run test cases and fix the code to match requirements.
 
 [TestClass]
 public class PriorityQueueTests
 {
-[TestMethod]
-// Scenario: Enqueue three items with priorities 1, 3, 2. Dequeue once.
-// Expected Result: Item with priority 3 is removed first ("High").
-// Defect(s) Found: Removes items in wrong order (doesn't respect highest priority).
-public void TestPriorityQueue_1()
-{
-    var pq = new PriorityQueue();
-    pq.Enqueue("Low", 1);
-    pq.Enqueue("High", 3);
-    pq.Enqueue("Mid", 2);
+    [TestMethod]
+    // Scenario: Enqueue items with different priorities and dequeue once.
+    // Expected Result: The item with the highest priority (Avacado, 5) is returned.
+    // Defect(s) Found: 
+    public void TestPriorityQueue_HighestPriority()
+    {
+        var queue = new PriorityQueue();
+        queue.Enqueue("Mango", 1);
+        queue.Enqueue("Avacado", 5);
+        queue.Enqueue("Apple", 3);
 
-    var result = pq.Dequeue();
-    Assert.AreEqual("High", result);
-}
+        var result = queue.Dequeue();
+        Assert.AreEqual("Avacado", result);
+    }
 
+    [TestMethod]
+    // Scenario: Enqueue multiple items with the same highest priority. Dequeue should follow FIFO for same priority.
+    // Expected Result: "Racheal" (priority 4) should be returned before "Mary" (priority 4).
+    // Defect(s) Found: 
+    public void TestPriorityQueue_TieBreakerFIFO()
+    {
+        var queue = new PriorityQueue();
+        queue.Enqueue("Racheal", 4);
+        queue.Enqueue("Mary", 4);
+        queue.Enqueue("Specy", 2);
 
-   [TestMethod]
-// Scenario: Enqueue two items with same high priority. Dequeue once.
-// Expected Result: The first inserted item is removed ("First").
-// Defect(s) Found: Was removing the later one instead.
-public void TestPriorityQueue_2()
-{
-    var pq = new PriorityQueue();
-    pq.Enqueue("First", 5);
-    pq.Enqueue("Second", 5);
+        var result1 = queue.Dequeue();
+        var result2 = queue.Dequeue();
 
-    var result = pq.Dequeue();
-    Assert.AreEqual("First", result);
-}
+        Assert.AreEqual("Racheal", result1);
+        Assert.AreEqual("Mary", result2);
+    }
 
+    [TestMethod]
+    // Scenario: Call Dequeue on an empty queue.
+    // Expected Result: An InvalidOperationException with message "The queue is empty." should be thrown.
+    // Defect(s) Found: 
+    public void TestPriorityQueue_Empty()
+    {
+        var queue = new PriorityQueue();
+
+        try
+        {
+            queue.Dequeue();
+            Assert.Fail("Expected exception was not thrown.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Assert.AreEqual("The queue is empty.", e.Message);
+        }
+    }
 }

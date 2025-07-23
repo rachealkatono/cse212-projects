@@ -23,7 +23,7 @@
     }
 
     // Find the index of the item with the highest priority
-    int highPriorityIndex = 0;
+    var highPriorityIndex = 0;
     for (int i = 1; i < _queue.Count; i++)
     {
         if (_queue[i].Priority > _queue[highPriorityIndex].Priority)
